@@ -1,26 +1,42 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
-import logo from './logo.svg';
+
+const WORDLE_GUESSES_NUM = 6;
+const WORDLE_GUESSES_DICTIONARY = "./wordle-guesses";
+const WORDLE_ANSWERS_DICTIONARY = "./wordle-answers";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React you doofus
-        </a>
-      </header>
+      <h1>Wordle</h1>
     </div>
   );
 }
 
-export default App;
+function Logic() {
+  let win = false;
+  while (win === false) {
+    //let wordleAnswer = random.choice(open("./wordle-answers.txt").read().splitlines())
+    //let guesses = []
+    for (let i = 0; i < WORDLE_GUESSES_NUM; i++) {
+      while (true) {
+        // GET INPUT
+        // if length of input = 5
+          // if input in guesses, error
+          // if input in guesses or answers dictionary, do something
+          // else, error
+        // else, error
+
+        // add input to guesses
+        break;
+      }
+      break;
+    }
+  }
+  
+  return (
+    <p>Content Here</p>
+  );
+}
+
+export {App, Logic}
