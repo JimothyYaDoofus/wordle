@@ -1,6 +1,7 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
-import guessList from './test.txt';
+import guessList from './wordle-guesses.txt';
+import answerList from './wordle-answers.txt';
 
 // const WORDLE_GUESSES_NUM = 6;
 // const WORDLE_GUESSES_DICTIONARY = "./wordle-guesses";
@@ -20,7 +21,7 @@ async function readFile(fileName) {
   await fetch(fileName)
     .then(data => data.text())
     .then(text => {
-      list = text.split("\r")
+      list = text.split("\n")
       .map(chars => chars.trim());
     });
 
@@ -110,7 +111,7 @@ function Logic() {
         alert("You guessed the word!");
         break;
       } else {
-        //alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
+        alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
         // CHECK TO SEE IF ANY LETTERS MATCH
         let updatedWord = containsLetter(WORD_OF_DAY, input);
 
@@ -121,14 +122,15 @@ function Logic() {
       // End game after x guesses
       if (currentGuess >= TOTAL_GUESSES) {
         alert("Better luck next time. You are out of attempts!");
+        alert(WORD_OF_DAY);
         break;
       }
     }
   });
 
   return (
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="text-center w-50 bg-primary rounded">
+    <div className={"d-flex justify-content-center align-items-center"}>
+      <div className={"text-center w-50 bg-primary rounded"}>
         <p>grid row</p>
         <p>grid row</p>
         <p>grid row</p>
