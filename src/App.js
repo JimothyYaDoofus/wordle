@@ -1,6 +1,7 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
-import guessList from './test.txt';
+import guessList from './wordle-guesses.txt';
+import answerList from './wordle-answers.txt';
 
 // const WORDLE_GUESSES_NUM = 6;
 // const WORDLE_GUESSES_DICTIONARY = "./wordle-guesses";
@@ -151,8 +152,8 @@ function Logic() {
 
 
   return (
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="text-center w-50 bg-primary rounded">
+    <div className="d-flex justify-content-center align-items-center">
+      <div className="text-center w-50 bg-primary rounded">
         <p>grid row</p>
         <p>grid row</p>
         <p>grid row</p>
