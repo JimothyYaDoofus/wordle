@@ -1,12 +1,7 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
-import guessList from './wordle-guesses.txt';
 import answerList from './wordle-answers.txt';
-
-// const WORDLE_GUESSES_NUM = 6;
-// const WORDLE_GUESSES_DICTIONARY = "./wordle-guesses";
-// const WORDLE_ANSWERS_DICTIONARY = "./wordle-answers";
-const NUMBER_OF_WORDS = 4;
+import guessList from './wordle-guesses.txt';
 
 function App() {
   return (
@@ -131,25 +126,33 @@ function Logic() {
       if (match === true) {
         alert("You guessed the word!");
         break;
-      } else {
-        //alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
-        // CHECK TO SEE IF ANY LETTERS MATCH
-        let updatedWord = containsLetter(WORD_OF_DAY, input);
+      } 
+      
+      if (isValidWord === false) {
+        alert("word is not in word list");
+        input = getInput();
+      } else if (isValidWord === true) {
+        // Update word count if valid guess
+        currentGuess++;
+        guessesLeft = TOTAL_GUESSES - currentGuess;
 
-        // Update input
-        input = prompt(updatedWord);
-      }
+        // End game after x guesses
+        if (currentGuess === TOTAL_GUESSES) {
+          alert("Better luck next time. The word was: " + WORD_OF_DAY.toUpperCase());
+          break;
+        } else {
+          alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
 
-      // End game after x guesses
-      if (currentGuess >= TOTAL_GUESSES) {
-        alert("Better luck next time. You are out of attempts!");
-        break;
+          // CHECK TO SEE IF ANY LETTERS MATCH
+          let updatedWord = containsLetter(WORD_OF_DAY, input);
+          input = prompt(updatedWord);
+        }
+
       }
 
     }
     
   }));
-
 
   return (
     <div className="d-flex justify-content-center align-items-center">
@@ -172,3 +175,4 @@ function Logic() {
 }
 
 export {App, Logic}
+
