@@ -1,7 +1,11 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
-import answerList from './wordle-answers.txt';
-import guessList from './wordle-guesses.txt';
+import guessList from './test.txt';
+
+// const WORDLE_GUESSES_NUM = 6;
+// const WORDLE_GUESSES_DICTIONARY = "./wordle-guesses";
+// const WORDLE_ANSWERS_DICTIONARY = "./wordle-answers";
+const NUMBER_OF_WORDS = 4;
 
 function App() {
   return (
@@ -126,28 +130,19 @@ function Logic() {
       if (match === true) {
         alert("You guessed the word!");
         break;
-      } 
-      
-      if (isValidWord === false) {
-        alert("word is not in word list");
-        input = getInput();
-      } else if (isValidWord === true) {
-        // Update word count if valid guess
-        currentGuess++;
-        guessesLeft = TOTAL_GUESSES - currentGuess;
+      } else {
+        //alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
+        // CHECK TO SEE IF ANY LETTERS MATCH
+        let updatedWord = containsLetter(WORD_OF_DAY, input);
 
-        // End game after x guesses
-        if (currentGuess === TOTAL_GUESSES) {
-          alert("Better luck next time. The word was: " + WORD_OF_DAY.toUpperCase());
-          break;
-        } else {
-          alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
+        // Update input
+        input = prompt(updatedWord);
+      }
 
-          // CHECK TO SEE IF ANY LETTERS MATCH
-          let updatedWord = containsLetter(WORD_OF_DAY, input);
-          input = prompt(updatedWord);
-        }
-
+      // End game after x guesses
+      if (currentGuess >= TOTAL_GUESSES) {
+        alert("Better luck next time. You are out of attempts!");
+        break;
       }
 
     }
@@ -156,8 +151,8 @@ function Logic() {
 
 
   return (
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="text-center w-50 bg-primary rounded">
+    <div class="d-flex justify-content-center align-items-center">
+      <div class="text-center w-50 bg-primary rounded">
         <p>grid row</p>
         <p>grid row</p>
         <p>grid row</p>
