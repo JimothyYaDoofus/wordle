@@ -1,11 +1,7 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
-import guessList from './test.txt';
-
-// const WORDLE_GUESSES_NUM = 6;
-// const WORDLE_GUESSES_DICTIONARY = "./wordle-guesses";
-// const WORDLE_ANSWERS_DICTIONARY = "./wordle-answers";
-const NUMBER_OF_WORDS = 4;
+import answerList from './wordle-answers.txt';
+import guessList from './wordle-guesses.txt';
 
 function App() {
   return (
@@ -20,17 +16,11 @@ async function readFile(fileName) {
   await fetch(fileName)
     .then(data => data.text())
     .then(text => {
-      list = text.split("\r")
+      list = text.split("\n")
       .map(chars => chars.trim());
     });
 
   return list;
-}
-
-function printFile(list) {
-  for (let i in list) {
-    console.log(list[i]);
-  }
 }
 
 function getInput() {
@@ -40,6 +30,7 @@ function getInput() {
 
 function generateWord(list) {
   // Pick random word from list
+  const NUMBER_OF_WORDS = list.length - 1;
   let wordIndex = Math.floor(Math.random() * NUMBER_OF_WORDS);
 
   return list[wordIndex];
@@ -64,35 +55,61 @@ function containsLetter(word, input) {
 
   let wordArr = word.split("");
   let inputArr = input.split("");
-  console.log(wordArr);
-  console.log(inputArr);
 
   for (let i = 0; i < word.length; i++) {
     if (inputArr[i] === wordArr[i]) {
-      console.log("correct letter and pos: " + inputArr[i]);
+      //console.log("correct letter and pos: " + inputArr[i]);
       updatedWord[i] = inputArr[i];
     } else if (wordArr.includes(inputArr[i])) {
-      console.log("correct letter / wrong pos: " + inputArr[i]);
+      //console.log("correct letter / wrong pos: " + inputArr[i]);
       updatedWord[i] = "*" + inputArr[i];
     } else {
-      console.log("wrong letter: " + inputArr[i]);
+      //console.log("wrong letter: " + inputArr[i]);
       updatedWord[i] = "_";
     }
   }
-
-  console.log(updatedWord);
 
   // Return str with chars and letters
   let formattedWord = updatedWord.join(['  ']);
   return formattedWord;
 }
 
-function Logic() {
-  readFile(guessList).then(list => {
-    // Logs list
-    // printFile(list);
+function combineList(...lists) {
+  let totalList = [];
 
+  lists.forEach(list => {
+    totalList.push(...list)
+  });
+
+  return totalList;
+}
+
+function validateWord(tList, guessedWord) {
+  // Check to see if input is in word list
+  if (tList.includes(guessedWord)) {
+    return true;
+  } else {
+    return false;
+  }
+
+}
+
+function Logic() {
+  let newArr = [];
+
+  // Generate total word list
+  readFile(guessList).then(list => {
+    newArr = list;
+  });
+
+  (readFile(answerList).then(list => {
+    // Combine both lists so that user can guess words from each
+    let totalList = combineList(newArr, list);
+
+    // Generate word from answer list
     const WORD_OF_DAY = generateWord(list);
+    console.log("Word of day: " + WORD_OF_DAY);
+
     const TOTAL_GUESSES = 6;
     let win = false;
     let currentGuess = 0;
@@ -101,34 +118,46 @@ function Logic() {
     let input = getInput();
 
     while (win === false) {
-      currentGuess++;
-      guessesLeft = TOTAL_GUESSES - currentGuess;
+      // Check to see if input is in word list
+      let isValidWord = validateWord(totalList, input);
 
       // Check for match
       let match = findMatch(WORD_OF_DAY, input);
       if (match === true) {
         alert("You guessed the word!");
         break;
-      } else {
-        //alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
-        // CHECK TO SEE IF ANY LETTERS MATCH
-        let updatedWord = containsLetter(WORD_OF_DAY, input);
+      } 
+      
+      if (isValidWord === false) {
+        alert("word is not in word list");
+        input = getInput();
+      } else if (isValidWord === true) {
+        // Update word count if valid guess
+        currentGuess++;
+        guessesLeft = TOTAL_GUESSES - currentGuess;
 
-        // Update input
-        input = prompt(updatedWord);
+        // End game after x guesses
+        if (currentGuess === TOTAL_GUESSES) {
+          alert("Better luck next time. The word was: " + WORD_OF_DAY.toUpperCase());
+          break;
+        } else {
+          alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
+
+          // CHECK TO SEE IF ANY LETTERS MATCH
+          let updatedWord = containsLetter(WORD_OF_DAY, input);
+          input = prompt(updatedWord);
+        }
+
       }
 
-      // End game after x guesses
-      if (currentGuess >= TOTAL_GUESSES) {
-        alert("Better luck next time. You are out of attempts!");
-        break;
-      }
     }
-  });
+    
+  }));
+
 
   return (
-    <div class="d-flex justify-content-center align-items-center">
-      <div class="text-center w-50 bg-primary rounded">
+    <div className="d-flex justify-content-center align-items-center">
+      <div className="text-center w-50 bg-primary rounded">
         <p>grid row</p>
         <p>grid row</p>
         <p>grid row</p>
