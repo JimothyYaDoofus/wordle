@@ -3,6 +3,7 @@ import './App.css';
 import answerList from './wordle-answers.txt';
 import guessList from './wordle-guesses.txt';
 
+// creates instance of App
 function App() {
   return (
     <div className="App">
@@ -11,6 +12,7 @@ function App() {
   );
 }
 
+// gets data from text files
 async function readFile(fileName) {
   let list = [];
   await fetch(fileName)
@@ -23,11 +25,13 @@ async function readFile(fileName) {
   return list;
 }
 
+// gets input from users
 function getInput() {
   const input = prompt("Guess the word: _ _ _ _ _");
   return input;
 }
 
+// picks correct answer at random
 function generateWord(list) {
   // Pick random word from list
   const NUMBER_OF_WORDS = list.length - 1;
@@ -36,14 +40,12 @@ function generateWord(list) {
   return list[wordIndex];
 }
 
+// checks user input for correct answer
 function findMatch(WORD_OF_DAY, input) {
-  if (WORD_OF_DAY === input) {
-    return true;
-  } else {
-    return false;
-  }
+  return WORD_OF_DAY === input;
 }
 
+// checks user input for correct letter
 function containsLetter(word, input) {
   // Check to see if userInput contains letter in WORD_OF_DAY
   let updatedWord = [];
@@ -74,6 +76,7 @@ function containsLetter(word, input) {
   return formattedWord;
 }
 
+// merges lists
 function combineList(...lists) {
   let totalList = [];
 
@@ -84,14 +87,9 @@ function combineList(...lists) {
   return totalList;
 }
 
+// checks to see if input is valid
 function validateWord(tList, guessedWord) {
-  // Check to see if input is in word list
-  if (tList.includes(guessedWord)) {
-    return true;
-  } else {
-    return false;
-  }
-
+  return tList.includes(guessedWord);
 }
 
 function Logic() {
