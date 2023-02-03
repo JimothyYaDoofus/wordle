@@ -153,22 +153,57 @@ function Logic() {
   }));
 
   return (
-    <div className="d-flex justify-content-center align-items-center">
-      <div className="text-center w-50 bg-primary rounded">
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-        <p>grid row</p>
-      </div>
+    <div id="container">
+    <div id="gameBoard">
+        <div class="row">
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+        </div>
+
+        <div class="row">
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+        </div>
+
+        <div class="row">
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+        </div>
+
+        <div class="row">
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+        </div>
+
+        <div class="row">
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+            <div class="box"><input type="text" maxlength="1"/></div>
+        </div>
+    
+      
+
     </div>
+</div>
   );
 }
 

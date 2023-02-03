@@ -1,3 +1,44 @@
 .App {
   text-align: center;
 }
+
+body {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+  color: white;
+  background-color: black;
+ }
+  
+ #container {
+  
+ }
+  
+ #gameBoard {
+  display: grid;
+  grid-template-columns: repeat(5, 80px);
+  grid-auto-rows: 100px;
+  justify-content: center;
+  padding-top: 50px;
+  
+ }
+  
+ .box {
+  width: 50px;
+  height: 50px;
+  margin: 20px;
+  outline: 1px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ }
+  
+ input {
+  background-color:black;
+  color: white;
+  text-align: center;
+  font-size: 3em;
+  text-transform: uppercase;
+  width: 50px;
+  height: 50px;
+  caret-color: transparent;
+ }
