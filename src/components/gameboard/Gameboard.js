@@ -2,6 +2,8 @@ import { render } from "@testing-library/react";
 import {useState, useSyncExternalStore} from "react";
 import { ReactDOM } from "react";
 import Row from "./Row";
+import Keyboard from "./Keyboard";
+
 
 function drawRows() {
 
@@ -35,6 +37,8 @@ const Gameboard = () => {
             <Row></Row>
             <Row></Row>
             <Row></Row>
+            <Keyboard></Keyboard>
+
        </div>
 
     );
