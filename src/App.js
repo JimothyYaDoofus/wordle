@@ -1,16 +1,44 @@
 import './Bootstrap/css/bootstrap.css';
 import './App.css';
+import React from 'react';
 import answerList from './wordle-answers.txt';
 import guessList from './wordle-guesses.txt';
+import Gameboard from './components/gameboard/Gameboard';
 
 // creates instance of App
+
+/*
 function App() {
   return (
     <div className="App">
       <h1>Wordle</h1>
     </div>
   );
-}
+}*/
+
+///////////////////////////////
+/*REACT GAMEBOARD RENDERING*/
+
+// draw gameboard
+
+// row - defined as current row - start at row 1 where className[0] === 'row'
+
+// read each input box in row
+
+// if each box in row contains letter
+  // check to see if word is valid
+    // if word is valid
+      // update board
+    // else
+      // output msg
+
+// else output error msg
+
+
+
+
+
+///////////////////////////////
 
 // gets data from text files
 async function readFile(fileName) {
@@ -27,7 +55,18 @@ async function readFile(fileName) {
 
 // gets input from users
 function getInput() {
-  const input = prompt("Guess the word: _ _ _ _ _");
+  //const input = prompt("Guess the word: _ _ _ _ _");
+
+  // when user pushes enter get input
+
+  // get input row
+  const input = document.getElementsByClassName("box");
+
+  for (let i = 0; i < 5; i++) {
+    console.log(input[i].value);
+  }
+
+
   return input;
 }
 
@@ -113,8 +152,19 @@ function Logic() {
     let currentGuess = 0;
     let guessesLeft = 0;
 
-    let input = getInput();
 
+    // Get input row from user (if 5 letters in row)
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        console.log("enter key pressed");
+      }
+    });
+
+
+
+    /*let input = getInput();
+
+    
     while (win === false) {
       // Check to see if input is in word list
       let isValidWord = validateWord(totalList, input);
@@ -148,64 +198,20 @@ function Logic() {
 
       }
 
-    }
+    }*/
     
   }));
 
-  return (
-    <div id="container">
-    <div id="gameBoard">
-        <div class="row">
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-        </div>
-
-        <div class="row">
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-        </div>
-
-        <div class="row">
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-        </div>
-
-        <div class="row">
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-        </div>
-
-        <div class="row">
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-            <div class="box"><input type="text" maxlength="1"/></div>
-        </div>
-    
-      
-
-    </div>
-</div>
-  );
 }
 
-export {App, Logic}
+export default function App() {
+  return (
+    <div className="App">
+      <h1>WORDLE</h1>
+      <Gameboard/>
+    </div>
+  )
+}
+
+//export {Logic}
 

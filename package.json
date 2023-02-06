@@ -1,6 +1,7 @@
 {
   "name": "wordle",
   "version": "0.1.0",
+  "homepage": "http://drwestfall.us/spring2023/cscn408/asgn01_game04/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
