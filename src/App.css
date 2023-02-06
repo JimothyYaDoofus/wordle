@@ -61,13 +61,15 @@ body {
 
 .key {
     background: #272B2C;
-    margin: 5px;
+    margin: 5px 2px;
     display: flex;
-    width: 50px;
-    height: 75px;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
     flex-direction: column;
     padding: 20px 10px;
-    font: 28px arial;
+    font: 15px arial;
     box-shadow: 0px 40px 45px rgba(0, 0, 0, .4);
  
 }
@@ -78,7 +80,7 @@ div[class*='line'] {
 }
   
 div[class*='line'] + div[class*='line'] {
-    margin-top: 15px;
+    margin-top: 5px;
 }
   
 .line1,
@@ -107,15 +109,17 @@ div[class*='line'] span {
   }
   
   #enter {
-    width: 105px;
-    height: auto;
+    width: 80px;
+    height: 40px;
     margin: 5px;
 
     background: #272B2C;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     padding: 20px 10px;
-    font: 28px arial;
+    font: 15px arial;
     box-shadow: 0px 40px 45px rgba(0, 0, 0, .4);
   }
   
@@ -129,15 +133,17 @@ div[class*='line'] span {
   #backspace {
     background: #272B2C;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-direction: column;
     padding: 20px 10px;
     margin: 5px;
-    font: 28px arial;
+    font: 15px arial;
     box-shadow: 0px 40px 45px rgba(0, 0, 0, .4);
 
     fill: white;
-    width: 50px;
-    height:75px;
+    width: 40px;
+    height:40px;
 
   }
   
