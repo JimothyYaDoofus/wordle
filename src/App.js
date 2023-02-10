@@ -216,6 +216,17 @@ class App extends React.Component {
 
     guessedWord = guessedWord.toLowerCase();
 
+    /////////////////////////
+
+    // color code letters
+    //colorCode(wOfD, guessedWord);
+
+
+
+
+
+    //////////////////////////
+
     console.log("WORD OF DAY: " + wOfD);
     console.log("Guessed Word: " + guessedWord);
     console.log(tList);
@@ -226,6 +237,9 @@ class App extends React.Component {
     // Check for match
     let match = findMatch(wOfD, guessedWord);
     if (match === true) {
+      // color code letters
+      colorCode(wOfD, guessedWord);
+
       alert("You guessed the word!");
       window.location.reload(false);
     } else if (isValidWord === false) {
@@ -237,6 +251,8 @@ class App extends React.Component {
       input.focus();
 
     } else if (isValidWord === true) {
+      // color code letters
+      colorCode(wOfD, guessedWord);
       // End game case
       if (rowEnd !== 29) {
         // Update rows
@@ -256,7 +272,7 @@ class App extends React.Component {
 
         rowEnd = rowStart + 4;
         pos++;
-        
+
       } else {
         alert("Better luck next time. The word was: " + wOfD.toUpperCase());
         window.location.reload(false);
@@ -334,6 +350,19 @@ for (i = 0; i < coll.length; i++) {
   });
 }
 
-export default App;
-//export {Logic}
+function colorCode(wOfD, guessedWord) {
+  let input = document.getElementsByClassName("guessBox");
 
+  for (let i = 0; i < 5; i++) {
+  // rowStart is being assigned to entire row
+    if (guessedWord[i] === wOfD[i]) {
+      input[rowStart + i].style.backgroundColor = "#538d4e";
+    } else if (wOfD.includes(guessedWord[i])) {
+      input[rowStart + i].style.backgroundColor = "#b59f3b";
+    } else {
+      input[rowStart + i].style.backgroundColor = "#3a3a3c";
+    }
+  }
+}
+
+export default App;
