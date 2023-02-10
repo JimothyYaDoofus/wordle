@@ -1,5 +1,5 @@
 //keyboard
-const Keyboard = () => {
+const KeyBoard = () => {
 	return (
 		
 		<div id="keyboard">
@@ -58,7 +58,7 @@ function selectKey(button) {
 	}
 }
 
-export default Keyboard;
+export default KeyBoard;
 
 
 
