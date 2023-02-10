@@ -231,17 +231,17 @@ class App extends React.Component {
     } else if (isValidWord === false) {
       alert("Word is not in word list");
 
-      let inputNext = document.getElementsByClassName("guessBox")[rowEnd];
-      inputNext.disabled = false;
-      inputNext.focus();
+      // Refocus box -- 
+      let input = document.getElementsByClassName("guessBox")[pos];
+      input.disabled = false;
+      input.focus();
 
     } else if (isValidWord === true) {
       // End game case
       if (rowEnd !== 29) {
         // Update rows
         rowStart = rowEnd + 1;
-        rowEnd = rowStart + 4;
-        pos++;
+
 
         // Switch row (focus nextBox)
         let inputNext = document.getElementsByClassName("guessBox")[rowStart];
@@ -250,9 +250,13 @@ class App extends React.Component {
 
         // color code boxes in row based on guess
 
-        // Disable last box
+        // Disable last box .. rowEnd
         let inputPrevious = document.getElementsByClassName("guessBox")[rowEnd];
         inputPrevious.disabled = true;
+
+        rowEnd = rowStart + 4;
+        pos++;
+        
       } else {
         alert("Better luck next time. The word was: " + wOfD.toUpperCase());
         window.location.reload(false);
