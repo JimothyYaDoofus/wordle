@@ -301,9 +301,105 @@ function validateWord(tList, guessedWord) {
   return tList.includes(guessedWord);
 }
 
-// Checks user input for correct answer
-function findMatch(WORD_OF_DAY, input) {
-  return WORD_OF_DAY === input;
+function Logic() {
+  let newArr = [];
+
+  // Generate total word list
+  readFile(guessList).then(list => {
+    newArr = list;
+  });
+
+  (readFile(answerList).then(list => {
+    // Combine both lists so that user can guess words from each
+    let totalList = combineList(newArr, list);
+
+    // Generate word from answer list
+    const WORD_OF_DAY = generateWord(list);
+    console.log("Word of day: " + WORD_OF_DAY);
+
+    const TOTAL_GUESSES = 6;
+    let win = false;
+    let currentGuess = 0;
+    let guessesLeft = 0;
+
+
+    // Get input row from user (if 5 letters in row)
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        console.log("enter key pressed");
+      }
+    });
+
+
+
+    let input = getInput();
+
+    
+    while (win === false) {
+      // Check to see if input is in word list
+      let isValidWord = validateWord(totalList, input);
+
+      // Check for match
+      let match = findMatch(WORD_OF_DAY, input);
+      if (match === true) {
+        alert("You guessed the word!");
+        break;
+      } 
+      
+      if (isValidWord === false) {
+        alert("word is not in word list");
+        input = getInput();
+      } else if (isValidWord === true) {
+        // Update word count if valid guess
+        currentGuess++;
+        guessesLeft = TOTAL_GUESSES - currentGuess;
+
+        // End game after x guesses
+        if (currentGuess === TOTAL_GUESSES) {
+          alert("Better luck next time. The word was: " + WORD_OF_DAY.toUpperCase());
+          break;
+        } else {
+          alert(`WRONG!!! You have ${guessesLeft} guesses left.`);
+
+          // CHECK TO SEE IF ANY LETTERS MATCH
+          let updatedWord = containsLetter(WORD_OF_DAY, input);
+          input = prompt(updatedWord);
+        }
+
+      }
+
+    }
+    
+  }));
+  
+
 }
 
-export default App;
+export default function App() {
+  return (
+    <div className="App">
+      <h1>WORDLE</h1>
+      <Gameboard/>
+    </div>
+  )
+}
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+
+
+//export {Logic}
+
