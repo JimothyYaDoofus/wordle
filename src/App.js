@@ -3,7 +3,7 @@ import './App.css';
 import React from 'react';
 import answerList from './wordle-answers.txt';
 import guessList from './wordle-guesses.txt';
-import KeyBoard from './components/gameboard/KeyBoard';
+import KeyBoard from './KeyBoard';
 
 let pos = 0;
 let rowStart = 0;
