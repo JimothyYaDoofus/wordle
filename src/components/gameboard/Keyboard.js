@@ -3,40 +3,40 @@ const Keyboard = () => {
 	return (
 		
 		<div id="keyboard">
-		<div class="base">
-			<div class="line1">
-				<div class="key">Q</div>
-				<div class="key">W</div>
-				<div class="key">E</div>
-				<div class="key">R</div>
-				<div class="key">T</div>
-				<div class="key">Y</div>
-				<div class="key">U</div>
-				<div class="key">I</div>
-				<div class="key">O</div>
-				<div class="key">P</div>
+		<div className="base">
+			<div className="line">
+				<div className="key" onClick={() => selectKey("Q")}>Q</div>
+				<div className="key" onClick={() => selectKey("W")}>W</div>
+				<div className="key" onClick={() => selectKey("E")}>E</div>
+				<div className="key" onClick={() => selectKey("R")}>R</div>
+				<div className="key" onClick={() => selectKey("T")}>T</div>
+				<div className="key" onClick={() => selectKey("Y")}>Y</div>
+				<div className="key" onClick={() => selectKey("U")}>U</div>
+				<div className="key" onClick={() => selectKey("I")}>I</div>
+				<div className="key" onClick={() => selectKey("O")}>O</div>
+				<div className="key" onClick={() => selectKey("P")}>P</div>
 			</div>
-			<div class="line2">
-				<div class="key">A</div>
-				<div class="key">S</div>
-				<div class="key">D</div>
-				<div class="key">F</div>
-				<div class="key">G</div>
-				<div class="key">H</div>
-				<div class="key">J</div>
-				<div class="key">K</div>
-				<div class="key">L</div>
+			<div className="line">
+				<div className="key" onClick={() => selectKey("A")}>A</div>
+				<div className="key" onClick={() => selectKey("S")}>S</div>
+				<div className="key" onClick={() => selectKey("D")}>D</div>
+				<div className="key" onClick={() => selectKey("F")}>F</div>
+				<div className="key" onClick={() => selectKey("G")}>G</div>
+				<div className="key" onClick={() => selectKey("H")}>H</div>
+				<div className="key" onClick={() => selectKey("J")}>J</div>
+				<div className="key" onClick={() => selectKey("K")}>K</div>
+				<div className="key" onClick={() => selectKey("L")}>L</div>
 			</div>
-			<div class="line3">
-				<div id="enter">Enter</div>
-				<div class="key">Z</div>
-				<div class="key">X</div>
-				<div class="key">C</div>
-				<div class="key">V</div>
-				<div class="key">B</div>
-				<div class="key">N</div>
-				<div class="key">M</div>
-				<div id="backspace">X</div>
+			<div className="line">
+				<div id="enter" onClick={() => selectKey("enter")}>Enter</div>
+				<div className="key" onClick={() => selectKey("Z")}>Z</div>
+				<div className="key" onClick={() => selectKey("X")}>X</div>
+				<div className="key" onClick={() => selectKey("C")}>C</div>
+				<div className="key" onClick={() => selectKey("V")}>V</div>
+				<div className="key" onClick={() => selectKey("B")}>B</div>
+				<div className="key" onClick={() => selectKey("N")}>N</div>
+				<div className="key" onClick={() => selectKey("M")}>M</div>
+				<div id="backspace" onClick={() => selectKey("backspace")}>&lt;</div>
 			</div>
 
 		</div>
@@ -44,8 +44,19 @@ const Keyboard = () => {
 	);
 };
 
-
-
+function selectKey(button) {
+	console.log(button + " button pressed");
+	switch (button) {
+		case "enter":
+			//getWord();
+			break;
+		case "backspace":
+			// DO BACKSPACE STUFF HERE
+			break;
+		default:
+			// GET ACCESS TO SELECTED BOX // = button;
+	}
+}
 
 export default Keyboard;
 
