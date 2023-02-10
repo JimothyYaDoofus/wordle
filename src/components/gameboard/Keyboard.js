@@ -36,7 +36,7 @@ const Keyboard = () => {
 				<div className="key" onClick={() => selectKey("B")}>B</div>
 				<div className="key" onClick={() => selectKey("N")}>N</div>
 				<div className="key" onClick={() => selectKey("M")}>M</div>
-				<div id="backspace" onClick={() => selectKey("backspace")}>&lt;</div>
+				<div id="backspace" onClick={() => selectKey("backspace")}>Del</div>
 			</div>
 
 		</div>

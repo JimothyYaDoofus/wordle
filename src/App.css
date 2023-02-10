@@ -113,9 +113,16 @@ div[class*='line'] div {
 
   
   #backspace {
-    background-image: url(/public/backspace.png);
-    
-    /*background: #272B2C;
+    /*background-image: url(/public/backspace.png);
+    background-repeat: no-repeat;
+    width: 5px;
+    height: 5px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    */
+
+    background: #272B2C;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -128,7 +135,7 @@ div[class*='line'] div {
     fill: white;
     width: 40px;
     height:40px;
-    */
+    
 
   }
 
