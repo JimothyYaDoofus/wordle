@@ -214,6 +214,7 @@ export default function App() {
   )
 }
 
+// Collapsible tutorial
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
