@@ -162,7 +162,7 @@ function Logic() {
 
 
 
-    /*let input = getInput();
+    let input = getInput();
 
     
     while (win === false) {
@@ -198,7 +198,7 @@ function Logic() {
 
       }
 
-    }*/
+    }
     
   }));
   
@@ -214,6 +214,7 @@ export default function App() {
   )
 }
 
+// Collapsible tutorial
 var coll = document.getElementsByClassName("collapsible");
 var i;
 
