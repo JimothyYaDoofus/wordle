@@ -177,7 +177,7 @@ class App extends React.Component {
 
   // Only execute at end of session !!!
   testFunction() {
-    new Session();
+    new Session(1, 1, 0, 0);
   }
 
   logic() {
