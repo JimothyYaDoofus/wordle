@@ -4,6 +4,7 @@ import React from 'react';
 import answerList from './wordle-answers.txt';
 import guessList from './wordle-guesses.txt';
 import KeyBoard from './KeyBoard';
+import Session from './Session';
 
 let pos = 0;
 let rowStart = 0;
@@ -174,6 +175,11 @@ class App extends React.Component {
     this.logic();
   }
 
+  // Only execute at end of session !!!
+  testFunction() {
+    new Session();
+  }
+
   logic() {
     let newArr = [];
   
@@ -196,6 +202,9 @@ class App extends React.Component {
   }
 
   handleClick(wOfD, tList) {
+    //rm
+    this.testFunction();
+
     let letters = document.getElementsByClassName("guessBox");
     let guessedWord = "";
 
