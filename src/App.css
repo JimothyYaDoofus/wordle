@@ -26,7 +26,6 @@ body {
   width: 50px;
   height: 50px;
   margin: 5px;
-  outline: 1px solid grey;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,12 +34,17 @@ body {
  input {
   background-color:black;
   color: white;
+  outline: 1px solid #7d6d5d;
   text-align: center;
   font-size: 1.5em;
   text-transform: uppercase;
   width: 50px;
   height: 50px;
   caret-color: transparent;
+ }
+
+ input:focus-within {
+  outline: 1px solid white;
  }
 
  
@@ -70,7 +74,7 @@ body {
     height: 40px;
     flex-direction: column;
     font: 15px arial;
-    box-shadow: 0px 40px 45px rgba(0, 0, 0, .4);
+    /*box-shadow: 0px 40px 45px rgba(0, 0, 0, .4);*/
  
 }
 
