@@ -147,16 +147,17 @@ div[class*='line'] div {
   text-align: left;
   outline: none;
   font-size: 20px;
+  display: inline;
 }
 
 .leaderboard {
   background-color: black;
   color: lightgray;
   cursor: pointer;
-  padding: 18px;
+  padding: 5px;
   width: 100%;
   border: none;
-  text-align: right;
+  text-align: left;
   outline: none;
   font-size: 20px;
 }
@@ -173,6 +174,7 @@ div[class*='line'] div {
   overflow: hidden;
   background-color: black;
 }
+
 
 
 p {
