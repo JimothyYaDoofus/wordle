@@ -28,14 +28,12 @@ class Box extends React.Component {
   }
 
   handleKeyPress(e) {
+    const regex = /^[a-zA-Z]+$/;
+
     if (e.key === "Backspace") {
       let inputCurrent = document.getElementsByClassName("guessBox")[pos];
 
-      if (pos === 0 || pos === rowStart) {
-        console.log("none");
-      } else if (inputCurrent.value !== "") {
-        console.log("contains text");
-      } else {
+      if ((pos !== 0 || pos !== rowStart) && !(inputCurrent.value !== "" && pos === rowEnd)) {
         pos--;
 
         this.setState({ selectedBox: pos }, () => {
@@ -45,27 +43,32 @@ class Box extends React.Component {
           // Enable current box
           let ip = document.getElementsByClassName("guessBox")[this.state.selectedBox];
           ip.disabled = false;
+          ip.value = "";
           ip.focus();
         });
 
       }
 
-    } else if (e.key === "Tab" && pos !== rowEnd) {
-      pos++;
+    } else if (e.key === "Enter" && pos === rowEnd) {
+      //this.handleClick(this.state.wOfD, this.state.tList)
 
-      this.setState({ selectedBox: pos }, () => {
-        // Disable previous box
-        let inputPrevious = document.getElementsByClassName("guessBox")[this.state.selectedBox - 1];
-        inputPrevious.disabled = true;
-  
-        // Enable next/current box
-        let inputCurrent = document.getElementsByClassName("guessBox")[this.state.selectedBox];
-        inputCurrent.disabled = false;
-      });
+    } else if (regex.test(e.key) && pos !== rowEnd) {
+      setTimeout(() => {
+        pos++;
 
-    }
+        this.setState({ selectedBox: pos }, () => {
+          // Disable previous box
+          let inputPrevious = document.getElementsByClassName("guessBox")[this.state.selectedBox - 1];
+          inputPrevious.disabled = true;
+    
+          // Enable next/current box
+          let inputCurrent = document.getElementsByClassName("guessBox")[this.state.selectedBox];
+          inputCurrent.disabled = false;
+          inputCurrent.focus();
+        });
+      }, 0.5);
 
-    else if (pos === rowEnd) {
+    } else if (pos === rowEnd) {
       // Block next row
       let inputNext = document.getElementsByClassName("guessBox")[pos + 1];
       console.log(this.state.selectedBox);
@@ -73,6 +76,9 @@ class Box extends React.Component {
         inputNext.disabled = true;
       }
 
+    } else {
+      let ip = document.getElementsByClassName("guessBox")[pos];
+      ip.value = "";
     }
 
   }
