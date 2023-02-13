@@ -33,7 +33,7 @@ class Box extends React.Component {
     if (e.key === "Backspace") {
       let inputCurrent = document.getElementsByClassName("guessBox")[pos];
 
-      if ((pos !== 0 || pos !== rowStart) && !(inputCurrent.value !== "" && pos === rowEnd)) {
+      if ((pos !== 0 && pos !== rowStart) && !(inputCurrent.value !== "" && pos === rowEnd)) {
         pos--;
 
         this.setState({ selectedBox: pos }, () => {
@@ -66,7 +66,7 @@ class Box extends React.Component {
           inputCurrent.disabled = false;
           inputCurrent.focus();
         });
-      }, 0.5);
+      }, 1);
 
     } else if (pos === rowEnd) {
       // Block next row
@@ -77,8 +77,7 @@ class Box extends React.Component {
       }
 
     } else {
-      let ip = document.getElementsByClassName("guessBox")[pos];
-      ip.value = "";
+      e.preventDefault();
     }
 
   }
