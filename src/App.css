@@ -181,6 +181,10 @@ p {
   font-style: italic;
 }
 
+h1 {
+  font-family: 'Monoton', cursive;
+}
+
 h2{
   color:cornflowerblue;
   font-family:'Courier New', Courier, monospace;
