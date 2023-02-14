@@ -7,6 +7,9 @@ import KeyBoard from './KeyBoard';
 import Session from './Session';
 import Leaderboard from './Leaderboard';
 import { createKey, updateData } from './Session';
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 let pos = 0;
 let rowStart = 0;
@@ -241,7 +244,10 @@ class App extends React.Component {
       // Color code letters
       colorCode(wOfD, guessedWord);
 
-      alert("You guessed the word!");
+      toast.success('You guessed the word!', {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2500
+      })
       // Update stats !!
       /////////////////////////////////
       let win = true;
@@ -251,7 +257,11 @@ class App extends React.Component {
       /////////////////////////////////
       window.location.reload(false);
     } else if (isValidWord === false) {
-      alert("Word is not in word list");
+
+      toast.error('Word is not in word list', { 
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2500
+      })
 
       // Refocus box -- 
       let input = document.getElementsByClassName("guessBox")[pos];
@@ -282,7 +292,12 @@ class App extends React.Component {
         pos++;
 
       } else {
-        alert("Better luck next time. The word was: " + wOfD.toUpperCase());
+
+        toast('Better luck next time. The word was: ' + wOfD.toUpperCase(), {
+          position: toast.POSITION.TOP_CENTER,
+          autoClose: 2500
+        })
+        //alert("Better luck next time. The word was: " + wOfD.toUpperCase());
         let win = false;
         updateData(win);
         window.location.reload(false);
