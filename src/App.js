@@ -6,7 +6,7 @@ import guessList from './wordle-guesses.txt';
 import KeyBoard from './KeyBoard';
 import Session from './Session';
 import Leaderboard from './Leaderboard';
-import { createKey } from './Session';
+import { createKey, updateData } from './Session';
 
 let pos = 0;
 let rowStart = 0;
@@ -238,10 +238,17 @@ class App extends React.Component {
     // Check for match
     let match = findMatch(wOfD, guessedWord);
     if (match === true) {
-      // color code letters
+      // Color code letters
       colorCode(wOfD, guessedWord);
 
       alert("You guessed the word!");
+      // Update stats !!
+      /////////////////////////////////
+      let win = true;
+      updateData(win);
+
+      // also update stats on loss 
+      /////////////////////////////////
       window.location.reload(false);
     } else if (isValidWord === false) {
       alert("Word is not in word list");
@@ -276,6 +283,8 @@ class App extends React.Component {
 
       } else {
         alert("Better luck next time. The word was: " + wOfD.toUpperCase());
+        let win = false;
+        updateData(win);
         window.location.reload(false);
       }
 

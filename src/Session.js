@@ -8,35 +8,16 @@ class Session extends React.Component {
         this.gamesPlayed = gamesPlayed;
         this.gamesWon = gamesWon;
         this.currentStreak = currentStreak;
-        this.maxStreak = maxStreak;
-
-        this.init();
-        //this.storeData();  
-    }
-
-    // Check to see if key is present
-    init() {
-        let key = localStorage.getItem("wordleStats");
-        if (key) {
-            this.getData();
-        } else {
-            this.storeData();
-        }
-    }
-
-    // Update data
-    updateData() {
-
+        this.maxStreak = maxStreak; 
     }
 
     // Store updated data
+    /*
     storeData() {
-        // Add ls
-        // format using json
         let stats = `{"stats":[{"gamesPlayed":"${this.gamesPlayed}"},{"gamesWon":"${this.gamesWon}"},{"currentStreak":"${this.currentStreak}"},{"maxStreak":"${this.maxStreak}"}]}`;
         localStorage.setItem("wordleStats", stats);
         console.log("data stored");
-    }
+    }*/
 
 
 }
@@ -64,29 +45,50 @@ class Session extends React.Component {
         let cs = convertedJSON.stats[2].currentStreak;
         let ms = convertedJSON.stats[3].maxStreak;
 
-        //console.log(gp);
-        //console.log(gw);
-        //console.log(cs);
-        //console.log(ms);
-
         returnedStats.push(gp);
         returnedStats.push(gw);
         returnedStats.push(cs);
         returnedStats.push(ms);
 
-        //add to current
-        //this.gamesPlayed += parseInt(gp);
-        //this.gamesWon += parseInt(gw);
-        
-
-        // add logic for maxStreak / current streak
-
-        //this.storeData();
         return returnedStats;
     }
 
+    function updateData(win) {
+        //Stored data
+        let data = getData();
 
+        let gp = Number(data[0]);
+        let gw = Number(data[1]);
+        let cs = Number(data[2]);
+        let ms = Number(data[3]);
 
+        // Logic for updating stats
+        gp += 1;
 
-export { getData, createKey };
+        // if game won
+        if (win === true) {
+            gw += 1;
+            cs += 1;
+
+            // Update max streak
+            if (ms < cs) {
+                ms += 1;
+            }
+        } else {
+            cs = 0;
+        }
+
+        // Add new stats to old
+        storeData(gp, gw, cs, ms);
+    }
+
+    //push updated data to ls
+    // Store updated data
+    function storeData(gp, gw, cs, ms) {
+        let stats = `{"stats":[{"gamesPlayed":"${gp}"},{"gamesWon":"${gw}"},{"currentStreak":"${cs}"},{"maxStreak":"${ms}"}]}`;
+        localStorage.setItem("wordleStats", stats);
+        console.log("data stored");
+    }
+
+export { getData, createKey, updateData };
 export default Session;
