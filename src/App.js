@@ -5,6 +5,8 @@ import answerList from './wordle-answers.txt';
 import guessList from './wordle-guesses.txt';
 import KeyBoard from './KeyBoard';
 import Session from './Session';
+import Leaderboard from './Leaderboard';
+import { createKey } from './Session';
 
 let pos = 0;
 let rowStart = 0;
@@ -180,12 +182,17 @@ class App extends React.Component {
     this.logic();
   }
 
+
+
   // Only execute at end of session !!!
   testFunction() {
     new Session(1, 1, 0, 0);
   }
 
   logic() {
+    // Create session key
+    createKey();
+
     let newArr = [];
   
     // Generate total word list
@@ -220,17 +227,6 @@ class App extends React.Component {
     }
 
     guessedWord = guessedWord.toLowerCase();
-
-    /////////////////////////
-
-    // color code letters
-    //colorCode(wOfD, guessedWord);
-
-
-
-
-
-    //////////////////////////
 
     console.log("WORD OF DAY: " + wOfD);
     console.log("Guessed Word: " + guessedWord);
@@ -291,6 +287,7 @@ class App extends React.Component {
     return (
       <div className="d-flex flex-column text-center align-items-center justify-content-center p-2">
         <h1>Wordle</h1>
+        <Leaderboard></Leaderboard>
         <Gameboard/>
         <button onClick={() => this.handleClick(this.state.wOfD, this.state.tList)} id="guess" className="btn btn-primary p-2 m-4">Check Word</button>
       </div>
