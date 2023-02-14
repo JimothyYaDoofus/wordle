@@ -292,17 +292,56 @@ class App extends React.Component {
 
   }
 
+  renderTutorial() {
+    let ruleContainer = document.getElementsByClassName('ruleContainer')[0];
+
+    if (ruleContainer.textContent === "") {
+      const h1 = document.createElement("h5");
+      const p = document.createElement("p");
+      const header = document.createTextNode("How To Play");
+      const body1 = document.createTextNode("The Object of the Game is to Guess a 5 Letter Word.");
+      const body2 = document.createTextNode(" You will have six opportunities to guess this word. Along the way there will be help.");
+      const body3 = document.createTextNode(" If one of the letters are Green it is in the correct spot. If one of the letters are yellow it is in the word but, in the wrong spot. If there is no color it is not used in the word.");
+
+      h1.appendChild(header);
+      p.appendChild(body1);
+      p.appendChild(body2);
+      p.appendChild(body3);
+      ruleContainer.appendChild(h1);
+      ruleContainer.appendChild(p);
+    } else {
+      ruleContainer.textContent = "";
+    }
+  }
+
   render() {
     return (
-      <div className="d-flex flex-column text-center align-items-center justify-content-center p-2">
-        <h1>Wordle</h1>
-        <Leaderboard></Leaderboard>
+      <div className="d-flex flex-column p-0 m-0">
+        <div className="w-100 justify-content-end border-bottom border-secondary">
+          <div className='row'>
+            <div className='col text-start m-2'>
+              <h2 className='m-2 p-2'>Wordle</h2>
+            </div>
+            <div className='col justify-content-end d-flex flex-row m-2'>
+              <button className='btn btn-secondary m-2 p-2' onClick={this.renderTutorial}>Tutorial</button>
+              <Leaderboard></Leaderboard>
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div className='ruleContainer pt-3'></div>
+
         <Gameboard/>
         <button onClick={() => this.handleClick(this.state.wOfD, this.state.tList)} id="guess" className="btn btn-primary p-2 m-4">Check Word</button>
       </div>
     );
   }
 }
+
+//function renderTutorial() {}
 
 // Get data from text files
 async function readFile(fileName) {
