@@ -247,6 +247,7 @@ class App extends React.Component {
       toast.success('You guessed the word!', {
       position: toast.POSITION.TOP_CENTER,
       autoClose: 2500
+
       })
       // Update stats !!
       /////////////////////////////////
