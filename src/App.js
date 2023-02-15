@@ -256,7 +256,9 @@ class App extends React.Component {
 
       // also update stats on loss 
       /////////////////////////////////
-      window.location.reload(false);
+
+      setTimeout(reloadPage, 3000);
+
     } else if (isValidWord === false) {
 
       toast.error('Word is not in word list', { 
@@ -301,7 +303,8 @@ class App extends React.Component {
         //alert("Better luck next time. The word was: " + wOfD.toUpperCase());
         let win = false;
         updateData(win);
-        window.location.reload(false);
+
+        setTimeout(reloadPage, 3000);
       }
 
     }
@@ -444,6 +447,10 @@ function colorCode(wOfD, guessedWord) {
       input[rowStart + i].style.backgroundColor = "#3a3a3c";
     }
   }
+}
+
+function reloadPage() {
+  window.location.reload(false);
 }
 
 export default App;
