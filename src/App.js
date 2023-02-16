@@ -11,9 +11,184 @@ import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+let wOfD = "";
+let tList = "";
+
 let pos = 0;
 let rowStart = 0;
 let rowEnd = rowStart + 4;
+
+
+// Set event listener for boxes and parent div
+//let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+//inputCurrent.disabled = false;
+//inputCurrent.focus();
+
+
+
+
+
+
+
+
+function focusCurrent() {
+  let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+  inputCurrent.disabled = false;
+  inputCurrent.focus();
+}
+
+// Differentiate between event and str params
+function handleKeyPress(event, letter) {
+  // Keep focused if first box in row
+  if (pos === rowStart) {
+    focusCurrent();
+  }
+
+  if(event === "" && (letter !== "backspace" && letter !== "enter")) {
+    let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+    inputCurrent.value = letter;
+  } else if (event === "" && (letter === "enter")) {
+    // Virtual enter key pressed
+    handleClick();
+  }
+  
+  if (event.key === "Backspace" || letter === "backspace") {
+    let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+
+    if ((pos !== rowStart) && !(inputCurrent.value !== "" && pos === rowEnd)) {
+      pos--;
+      let inputPrevious = document.getElementsByClassName("guessBox")[pos + 1];
+      inputPrevious.disabled = true;
+
+      // Enable current box
+      let ip = document.getElementsByClassName("guessBox")[pos];
+      ip.disabled = false;
+      ip.value = "";
+      ip.focus();
+    } else if ((pos !== rowStart) && !(inputCurrent.value === "" && pos === rowEnd)) {
+        inputCurrent.value = "";
+        inputCurrent.disabled = false;
+        inputCurrent.focus();
+    }
+
+  } else if (event.key === "Enter") {
+    handleClick();
+
+  } else if (pos !== rowEnd && letter !== "enter") {
+    setTimeout(() => {
+      pos++;
+
+      // Disable previous box
+      let inputPrevious = document.getElementsByClassName("guessBox")[pos - 1];
+      inputPrevious.disabled = true;
+
+      // Enable next/current box
+      focusCurrent();
+    }, 1);
+
+  } else if (pos === rowEnd) {
+    // Block next row
+    let inputNext = document.getElementsByClassName("guessBox")[pos + 1];
+    console.log("next input: ", pos);
+    if(inputNext) {
+      inputNext.disabled = true;
+    }
+
+    // Enable next/current box
+    focusCurrent();
+
+  } else {
+    //event.preventDefault();
+  }
+  
+}
+
+function handleClick() {
+
+  let letters = document.getElementsByClassName("guessBox");
+  let guessedWord = "";
+
+  for (let i = rowStart; i < rowEnd + 1; i++) {
+    guessedWord += letters[i].value;
+  }
+
+  guessedWord = guessedWord.toLowerCase();
+
+  console.log("WORD OF DAY: " + wOfD);
+  console.log("Guessed Word: " + guessedWord);
+  console.log(tList);
+
+  // Check to see if input is in word list
+  let isValidWord = validateWord(tList, guessedWord);
+
+  // Check for match
+  let match = findMatch(wOfD, guessedWord);
+  if (match === true) {
+    // Color code letters
+    colorCode(wOfD, guessedWord);
+
+    toast.success('You guessed the word!', {
+    position: toast.POSITION.TOP_CENTER,
+    autoClose: 2500
+
+    })
+
+    let win = true;
+    updateData(win);
+
+    setTimeout(reloadPage, 3000);
+
+  } else if (isValidWord === false) {
+
+    toast.error('Word is not in word list', { 
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 2500
+    })
+
+    // Refocus box -- 
+    let input = document.getElementsByClassName("guessBox")[pos];
+    input.disabled = false;
+    input.focus();
+
+  } else if (isValidWord === true) {
+    // color code letters
+    colorCode(wOfD, guessedWord);
+    // End game case
+    if (rowEnd !== 29) {
+      // Update rows
+      rowStart = rowEnd + 1;
+
+
+      // Switch row (focus nextBox)
+      let inputNext = document.getElementsByClassName("guessBox")[rowStart];
+      inputNext.disabled = false;
+      inputNext.focus();
+
+      // color code boxes in row based on guess
+
+      // Disable last box .. rowEnd
+      let inputPrevious = document.getElementsByClassName("guessBox")[rowEnd];
+      inputPrevious.disabled = true;
+
+      rowEnd = rowStart + 4;
+      pos++;
+
+    } else {
+
+      toast('Better luck next time. The word was: ' + wOfD.toUpperCase(), {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 2500
+      })
+
+      let win = false;
+      updateData(win);
+
+      setTimeout(reloadPage, 3000);
+    }
+
+  }
+
+}
 
 class Box extends React.Component {
   constructor(props) {
@@ -23,6 +198,7 @@ class Box extends React.Component {
       isDisabled: true,
       selectedBox: 0,
     }
+
   }
 
   // Auto focus first box after boxes render
@@ -30,61 +206,6 @@ class Box extends React.Component {
     let box = document.getElementsByClassName("guessBox")[0];
     box.disabled = false;
     box.focus();
-  }
-
-  handleKeyPress(e) {
-    const regex = /^[a-zA-Z]+$/;
-
-    if (e.key === "Backspace") {
-      let inputCurrent = document.getElementsByClassName("guessBox")[pos];
-
-      if ((pos !== 0 && pos !== rowStart) && !(inputCurrent.value !== "" && pos === rowEnd)) {
-        pos--;
-
-        this.setState({ selectedBox: pos }, () => {
-          let inputPrevious = document.getElementsByClassName("guessBox")[this.state.selectedBox + 1];
-          inputPrevious.disabled = true;
-  
-          // Enable current box
-          let ip = document.getElementsByClassName("guessBox")[this.state.selectedBox];
-          ip.disabled = false;
-          ip.value = "";
-          ip.focus();
-        });
-
-      }
-
-    } else if (e.key === "Enter" && pos === rowEnd) {
-      //this.handleClick(this.state.wOfD, this.state.tList)
-
-    } else if (regex.test(e.key) && pos !== rowEnd) {
-      setTimeout(() => {
-        pos++;
-
-        this.setState({ selectedBox: pos }, () => {
-          // Disable previous box
-          let inputPrevious = document.getElementsByClassName("guessBox")[this.state.selectedBox - 1];
-          inputPrevious.disabled = true;
-    
-          // Enable next/current box
-          let inputCurrent = document.getElementsByClassName("guessBox")[this.state.selectedBox];
-          inputCurrent.disabled = false;
-          inputCurrent.focus();
-        });
-      }, 1);
-
-    } else if (pos === rowEnd) {
-      // Block next row
-      let inputNext = document.getElementsByClassName("guessBox")[pos + 1];
-      console.log(this.state.selectedBox);
-      if(inputNext) {
-        inputNext.disabled = true;
-      }
-
-    } else {
-      e.preventDefault();
-    }
-
   }
 
   render() {
@@ -97,13 +218,34 @@ class Box extends React.Component {
           disabled={this.state.isDisabled}
           //onClick={() => this.props.onClick}
           //onChange={(e) => {this.handleChange(e)}}
-          onKeyDown={(e) => {this.handleKeyPress(e)}}
+          //this.handleKeyPress(e)
+          
+          //onKeyDown={(e) => {handleKeyPress(e)}}
+          onKeyDown={(e) => {isAlpha(e)}}
         >
         </input>
         {this.state.value}
       </div>
     );
   }
+}
+
+function isAlpha(event) {
+  if (event.key !== "Enter" && event.key !== "Delete") {
+    let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+    inputCurrent.value = "";
+  }
+
+  let rand = "";
+  const regex = /^[a-zA-Z]+$/;
+
+  if (regex.test(event.key)) {
+    handleKeyPress(event, rand);
+  } else {
+    let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+    inputCurrent.value = " ";
+  }
+
 }
 
 class Gameboard extends React.Component {
@@ -114,7 +256,6 @@ class Gameboard extends React.Component {
 
     };
   }
-
 
   renderBox(i) {
     return (
@@ -182,133 +323,17 @@ class App extends React.Component {
       wOfD: null,
       tList: null,
     }
-    this.logic();
+
   }
 
+  componentDidMount() {
+    document.getElementById("allContent").addEventListener("click", function() {
+      console.log("clicked");
+      let inputCurrent = document.getElementsByClassName("guessBox")[pos];
+      inputCurrent.disabled = false;
+      inputCurrent.focus();
 
-
-  // Only execute at end of session !!!
-  testFunction() {
-    new Session(1, 1, 0, 0);
-  }
-
-  logic() {
-    // Create session key
-    createKey();
-
-    let newArr = [];
-  
-    // Generate total word list
-    readFile(guessList).then(list => {
-      newArr = list;
     });
-  
-    (readFile(answerList).then(list => {
-      // Combine both lists so that user can guess words from each
-      let totalList = combineList(newArr, list);
-  
-      // Generate word from answer list
-      const WORD_OF_DAY = generateWord(list);
-
-      // Update word of day
-      this.setState({ wOfD: WORD_OF_DAY, tList: totalList});
-      
-    }));
-  }
-
-  handleClick(wOfD, tList) {
-    //rm
-    this.testFunction();
-
-    let letters = document.getElementsByClassName("guessBox");
-    let guessedWord = "";
-
-
-  
-    for (let i = rowStart; i < rowEnd + 1; i++) {
-      guessedWord += letters[i].value;
-    }
-
-    guessedWord = guessedWord.toLowerCase();
-
-    console.log("WORD OF DAY: " + wOfD);
-    console.log("Guessed Word: " + guessedWord);
-    console.log(tList);
-
-    // Check to see if input is in word list
-    let isValidWord = validateWord(tList, guessedWord);
-
-    // Check for match
-    let match = findMatch(wOfD, guessedWord);
-    if (match === true) {
-      // Color code letters
-      colorCode(wOfD, guessedWord);
-
-      toast.success('You guessed the word!', {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 2500
-
-      })
-      // Update stats !!
-      /////////////////////////////////
-      let win = true;
-      updateData(win);
-
-      // also update stats on loss 
-      /////////////////////////////////
-
-      setTimeout(reloadPage, 3000);
-
-    } else if (isValidWord === false) {
-
-      toast.error('Word is not in word list', { 
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 2500
-      })
-
-      // Refocus box -- 
-      let input = document.getElementsByClassName("guessBox")[pos];
-      input.disabled = false;
-      input.focus();
-
-    } else if (isValidWord === true) {
-      // color code letters
-      colorCode(wOfD, guessedWord);
-      // End game case
-      if (rowEnd !== 29) {
-        // Update rows
-        rowStart = rowEnd + 1;
-
-
-        // Switch row (focus nextBox)
-        let inputNext = document.getElementsByClassName("guessBox")[rowStart];
-        inputNext.disabled = false;
-        inputNext.focus();
-
-        // color code boxes in row based on guess
-
-        // Disable last box .. rowEnd
-        let inputPrevious = document.getElementsByClassName("guessBox")[rowEnd];
-        inputPrevious.disabled = true;
-
-        rowEnd = rowStart + 4;
-        pos++;
-
-      } else {
-
-        toast('Better luck next time. The word was: ' + wOfD.toUpperCase(), {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 2500
-        })
-        //alert("Better luck next time. The word was: " + wOfD.toUpperCase());
-        let win = false;
-        updateData(win);
-
-        setTimeout(reloadPage, 3000);
-      }
-
-    }
-
   }
 
   renderTutorial() {
@@ -335,7 +360,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="d-flex flex-column p-0 m-0">
+      <div id="allContent" className="d-flex flex-column p-0 m-0">
         <div className="w-100 justify-content-end border-bottom border-secondary">
           <div className='row'>
             <div className='col text-start m-2'>
@@ -346,21 +371,44 @@ class App extends React.Component {
               <Leaderboard></Leaderboard>
             </div>
           </div>
-
-
         </div>
 
-
         <div className='ruleContainer pt-3'></div>
-
         <Gameboard/>
-        <button onClick={() => this.handleClick(this.state.wOfD, this.state.tList)} id="guess" className="btn btn-primary p-2 m-4">Check Word</button>
+
       </div>
     );
   }
 }
 
 //function renderTutorial() {}
+logic();
+function logic() {
+
+  // Create session key
+  createKey();
+
+  let newArr = [];
+
+  // Generate total word list
+  readFile(guessList).then(list => {
+    newArr = list;
+  });
+
+  (readFile(answerList).then(list => {
+    // Combine both lists so that user can guess words from each
+    let totalList = combineList(newArr, list);
+
+    // Generate word from answer list
+    const WORD_OF_DAY = generateWord(list);
+
+    // Update word of day
+    //this.setState({ wOfD: WORD_OF_DAY, tList: totalList});
+    wOfD = WORD_OF_DAY;
+    tList = totalList;
+    
+  }));
+}
 
 // Get data from text files
 async function readFile(fileName) {
@@ -453,4 +501,5 @@ function reloadPage() {
   window.location.reload(false);
 }
 
+export {handleKeyPress}
 export default App;
