@@ -18,19 +18,6 @@ let pos = 0;
 let rowStart = 0;
 let rowEnd = rowStart + 4;
 
-
-// Set event listener for boxes and parent div
-//let inputCurrent = document.getElementsByClassName("guessBox")[pos];
-//inputCurrent.disabled = false;
-//inputCurrent.focus();
-
-
-
-
-
-
-
-
 function focusCurrent() {
   let inputCurrent = document.getElementsByClassName("guessBox")[pos];
   inputCurrent.disabled = false;
@@ -39,13 +26,7 @@ function focusCurrent() {
 
 // Differentiate between event and str params
 function handleKeyPress(event, letter) {
-
-  // Keep focused if first box in row 
-  /*
-  if (pos === rowStart) {
-    focusCurrent();
-  }*/
-
+  
   if(event === "" && (letter !== "backspace" && letter !== "enter")) {
     let inputCurrent = document.getElementsByClassName("guessBox")[pos];
     inputCurrent.value = letter;
@@ -77,22 +58,7 @@ function handleKeyPress(event, letter) {
     handleClick();
 
   } 
-  /*
-  else if (pos !== rowEnd && letter !== "enter") {
-    //setTimeout(() => {
-      pos++;
-      console.log("running");
 
-      // Disable previous box
-      //let inputPrevious = document.getElementsByClassName("guessBox")[pos - 1];
-      //inputPrevious.disabled = true;
-
-      // Enable next/current box
-
-      focusCurrent();
-    //}, 1);
-
-  } */
   else if (pos === rowEnd) {
     // Block next row
     let inputNext = document.getElementsByClassName("guessBox")[pos + 1];
@@ -385,14 +351,17 @@ class App extends React.Component {
 
   render() {
     return (
-      <div id="allContent" className="d-flex flex-column p-0 m-0">
+      <div id="allContent" className="d-flex flex-column p-0 ms-2 me-2">
         <div className="w-100 justify-content-end border-bottom border-secondary">
-          <div className='row'>
-            <div className='col text-start m-2'>
-              <h2 className='m-2 p-2'>Wordle</h2>
+          <div className='row m-2'>
+            <div className='col text-start d-flex flex-row m-1 p-0'>
+              <h2 id="test" className='ms-0 mt-0 mb-0 p-2 justify-content-center align-items-center'>Wordle</h2>
             </div>
-            <div className='col justify-content-end d-flex flex-row m-2'>
-              <button className='btn btn-secondary m-2 p-2' onClick={this.renderTutorial}>Tutorial</button>
+            <div className='col justify-content-end d-flex flex-row m-1 p-0'>
+              <button id="btnTest" className='btn btn-secondary m-2 p-2 h-60' onClick={this.renderTutorial}><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-question-diamond" viewBox="0 0 16 16">
+  <path d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
+  <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+</svg></button>
               <Leaderboard></Leaderboard>
             </div>
           </div>
