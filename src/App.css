@@ -34,14 +34,15 @@ body {
  input {
   background-color:black;
   color: white;
-  outline: 1px solid #7d6d5d;
   text-align: center;
   font-size: 1.5em;
   text-transform: uppercase;
   width: 50px;
   height: 50px;
   caret-color: transparent;
+  border: 1px solid #7d6d5d;
  }
+
 
  input:focus-within {
   outline: 1px solid white;

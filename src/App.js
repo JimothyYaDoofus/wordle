@@ -4,10 +4,9 @@ import React from 'react';
 import answerList from './wordle-answers.txt';
 import guessList from './wordle-guesses.txt';
 import KeyBoard from './KeyBoard';
-import Session from './Session';
 import Leaderboard from './Leaderboard';
 import { createKey, updateData } from './Session';
-import {ToastContainer, toast} from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -17,6 +16,8 @@ let tList = "";
 let pos = 0;
 let rowStart = 0;
 let rowEnd = rowStart + 4;
+
+let noLetter = false;
 
 function focusCurrent() {
   let inputCurrent = document.getElementsByClassName("guessBox")[pos];
@@ -30,65 +31,72 @@ function handleKeyPress(event, letter) {
   if(event === "" && (letter !== "backspace" && letter !== "enter")) {
     let inputCurrent = document.getElementsByClassName("guessBox")[pos];
     inputCurrent.value = letter;
-  } else if (event === "" && (letter === "enter")) {
+  } else if (event.key === "Enter" || (letter === "enter")) {
     // Virtual enter key pressed
     handleClick();
   }
-  
-  if (event.key === "Backspace" || letter === "backspace") {
-    let inputCurrent = document.getElementsByClassName("guessBox")[pos];
 
-    if ((pos !== rowStart) && !(inputCurrent.value !== "" && pos === rowEnd)) {
-      pos--;
-      let inputPrevious = document.getElementsByClassName("guessBox")[pos + 1];
-      inputPrevious.disabled = true;
+  const regex = /^[a-zA-Z]+$/;
+  let inputCurrent = document.getElementsByClassName("guessBox")[pos];
 
-      // Enable current box
-      let ip = document.getElementsByClassName("guessBox")[pos];
-      ip.disabled = false;
-      ip.value = "";
-      ip.focus();
-    } else if ((pos !== rowStart) && !(inputCurrent.value === "" && pos === rowEnd)) {
-        inputCurrent.value = "";
-        inputCurrent.disabled = false;
-        inputCurrent.focus();
-    }
-
-  } else if (event.key === "Enter") {
-    handleClick();
-
+  if (pos === rowStart && letter === "backspace" && pos !== rowEnd) {
+    inputCurrent.value = "";
+  } else if (letter === "backspace" && regex.test(inputCurrent.value) === false) {
+    pos--;
+    focusCurrent();
+  } else if (letter === "backspace"  && regex.test(inputCurrent.value) && pos !== rowEnd) {
+    inputCurrent.value = "";
+    pos--;
+    focusCurrent();
   } 
 
-  else if (pos === rowEnd) {
-    // Block next row
-    let inputNext = document.getElementsByClassName("guessBox")[pos + 1];
-    console.log("next input: ", pos);
-    if(inputNext) {
-      inputNext.disabled = true;
-    }
+  else if (letter === "backspace"  && noLetter === false && pos === rowEnd) {
+    setTimeout(() => {
+      inputCurrent.value = "";
+    }, 1); 
+    noLetter = true;
+  }
 
-    // Enable next/current box
+  else if (letter === "backspace" && noLetter === true && pos === rowEnd) {
+    pos--;
     focusCurrent();
+    noLetter = false;
+    inputCurrent.value = "";
+  }
 
-  } else if (pos !== rowEnd && letter !== "enter") {
-    console.log(pos);
+  if ((event.key === "Backspace") && regex.test(inputCurrent.value) && pos !== rowStart) {
+        setTimeout(() => {
+          pos--;
+          focusCurrent();
+        }, 1); 
+
+  } else if ((event.key === "Backspace") && regex.test(inputCurrent.value) === false && pos !== rowEnd && pos !== rowStart) {
+    setTimeout(() => {
+      pos--;
+      focusCurrent();
+    }, 1);
+
+  } else if ((event.key === "Backspace") && noLetter === false && pos !== rowStart) {
+    noLetter = true;
+
+  } else if ((event.key === "Backspace") && noLetter === true) {
+    setTimeout(() => {
+      pos--;
+      focusCurrent();
+      noLetter = false;
+    }, 1);
+  }
+  
+  // Auto tab -- if not end of row and key was not backspace
+  if (pos !== rowEnd && event.key !== "Backspace" && letter !== "backspace" && event.key !== "Enter" && letter !== "enter") {
     pos++;
-    console.log("running");
-
-
-    // Enable next/current box
-
-    //focusCurrent();
 
     setTimeout(() => {
       focusCurrent();
-              // Disable previous box
+      // Disable previous box
       let inputPrevious = document.getElementsByClassName("guessBox")[pos - 1];
       inputPrevious.disabled = true;
     }, 1);
-
-
-
   }
   
 }
@@ -207,11 +215,6 @@ class Box extends React.Component {
           maxLength="1"
           className='guessBox'
           disabled={this.state.isDisabled}
-          //onClick={() => this.props.onClick}
-          //onChange={(e) => {this.handleChange(e)}}
-          //this.handleKeyPress(e)
-          
-          //onKeyDown={(e) => {handleKeyPress(e)}}
           onKeyDown={(e) => {isAlpha(e)}}
         >
         </input>
@@ -240,13 +243,6 @@ function isAlpha(event) {
 }
 
 class Gameboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      vals: 0,
-
-    };
-  }
 
   renderBox(i) {
     return (
@@ -319,11 +315,9 @@ class App extends React.Component {
 
   componentDidMount() {
     document.getElementById("allContent").addEventListener("click", function() {
-      console.log("clicked");
       let inputCurrent = document.getElementsByClassName("guessBox")[pos];
       inputCurrent.disabled = false;
       inputCurrent.focus();
-
     });
   }
 
@@ -375,10 +369,8 @@ class App extends React.Component {
   }
 }
 
-//function renderTutorial() {}
 logic();
 function logic() {
-
   // Create session key
   createKey();
 
@@ -396,8 +388,6 @@ function logic() {
     // Generate word from answer list
     const WORD_OF_DAY = generateWord(list);
 
-    // Update word of day
-    //this.setState({ wOfD: WORD_OF_DAY, tList: totalList});
     wOfD = WORD_OF_DAY;
     tList = totalList;
     
@@ -446,41 +436,10 @@ function findMatch(WORD_OF_DAY, input) {
   return WORD_OF_DAY === input;
 }
 
-var coll = document.getElementsByClassName("collapsible");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-}
-
-var coll = document.getElementsByClassName("leaderboard");
-var i;
-
-for (i = 0; i < coll.length; i++) {
-  coll[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var content = this.nextElementSibling;
-    if (content.style.display === "block") {
-      content.style.display = "none";
-    } else {
-      content.style.display = "block";
-    }
-  });
-}
-
 function colorCode(wOfD, guessedWord) {
   let input = document.getElementsByClassName("guessBox");
 
   for (let i = 0; i < 5; i++) {
-  // rowStart is being assigned to entire row
     if (guessedWord[i] === wOfD[i]) {
       input[rowStart + i].style.backgroundColor = "#538d4e";
     } else if (wOfD.includes(guessedWord[i])) {

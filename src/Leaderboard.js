@@ -1,4 +1,3 @@
-import App from "./App";
 import React from "react";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,7 +6,6 @@ import { getData } from "./Session";
 
 const notify = () => {
     let data = getData();
-    //console.log(data[0]);
     toast(<div>Games Played: {data[0]} <br /> Games Won: {data[1]} <br /> Current Streak: {data[2]} <br /> Max Streak: {data[3]} </div>, {
         position: "top-right",
         autoClose: 100000,
@@ -21,21 +19,6 @@ const notify = () => {
 };
 
 class Leaderboard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            
-        }
-    }
-
-    componentDidMount() {
-        
-    }
-
-    renderStats() {
-
-    }
-
     render() {
         return (
             <div>
@@ -56,7 +39,6 @@ class Leaderboard extends React.Component {
                 />
             </div>
 
-         
         );
 
     }
