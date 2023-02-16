@@ -39,10 +39,12 @@ function focusCurrent() {
 
 // Differentiate between event and str params
 function handleKeyPress(event, letter) {
-  // Keep focused if first box in row
+
+  // Keep focused if first box in row 
+  /*
   if (pos === rowStart) {
     focusCurrent();
-  }
+  }*/
 
   if(event === "" && (letter !== "backspace" && letter !== "enter")) {
     let inputCurrent = document.getElementsByClassName("guessBox")[pos];
@@ -74,19 +76,24 @@ function handleKeyPress(event, letter) {
   } else if (event.key === "Enter") {
     handleClick();
 
-  } else if (pos !== rowEnd && letter !== "enter") {
-    setTimeout(() => {
+  } 
+  /*
+  else if (pos !== rowEnd && letter !== "enter") {
+    //setTimeout(() => {
       pos++;
+      console.log("running");
 
       // Disable previous box
-      let inputPrevious = document.getElementsByClassName("guessBox")[pos - 1];
-      inputPrevious.disabled = true;
+      //let inputPrevious = document.getElementsByClassName("guessBox")[pos - 1];
+      //inputPrevious.disabled = true;
 
       // Enable next/current box
-      focusCurrent();
-    }, 1);
 
-  } else if (pos === rowEnd) {
+      focusCurrent();
+    //}, 1);
+
+  } */
+  else if (pos === rowEnd) {
     // Block next row
     let inputNext = document.getElementsByClassName("guessBox")[pos + 1];
     console.log("next input: ", pos);
@@ -97,8 +104,25 @@ function handleKeyPress(event, letter) {
     // Enable next/current box
     focusCurrent();
 
-  } else {
-    //event.preventDefault();
+  } else if (pos !== rowEnd && letter !== "enter") {
+    console.log(pos);
+    pos++;
+    console.log("running");
+
+
+    // Enable next/current box
+
+    //focusCurrent();
+
+    setTimeout(() => {
+      focusCurrent();
+              // Disable previous box
+      let inputPrevious = document.getElementsByClassName("guessBox")[pos - 1];
+      inputPrevious.disabled = true;
+    }, 1);
+
+
+
   }
   
 }
