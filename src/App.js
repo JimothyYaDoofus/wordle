@@ -237,6 +237,7 @@ class Box extends React.Component {
       <div className="box">
         <input 
           type="text" 
+          inputMode='none'
           maxLength="1"
           className='guessBox'
           disabled={this.state.isDisabled}

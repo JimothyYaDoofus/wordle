@@ -57,7 +57,7 @@ body {
   align-items: center;
 }
 
-.key {
+.key, .box {
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;
