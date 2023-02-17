@@ -30,7 +30,7 @@ body {
   align-items: center;
   justify-content: center;
  }
-  
+
  input {
   background-color:black;
   color: white;
@@ -41,6 +41,7 @@ body {
   height: 50px;
   caret-color: transparent;
   border: 1px solid #7d6d5d;
+  outline: 1px solid #7d6d5d;
  }
 
 
